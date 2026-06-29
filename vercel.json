@@ -11,6 +11,10 @@
     },
     "routes": [
         {
+            "src": "/storage/(.*)",
+            "dest": "/public/storage/$1"
+        },
+        {
             "src": "/images/(.*)",
             "dest": "/public/images/$1"
         },

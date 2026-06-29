@@ -14,7 +14,7 @@ class PemainController extends Controller
      */
     public function home()
     {
-        $pemains = Pemain::latest()->get();
+        $pemains = Pemain::orderBy('id_pemain', 'asc')->get();
         $totalPemain = Pemain::count();
         $totalCabang = Pemain::distinct('cabang_olahraga')->count('cabang_olahraga');
         $totalKlub = Pemain::distinct('klub')->count('klub');
@@ -27,7 +27,7 @@ class PemainController extends Controller
      */
     public function index()
     {
-        $pemains = Pemain::latest()->get();
+        $pemains = Pemain::orderBy('id_pemain', 'asc')->get();
         $totalPemain = Pemain::count();
         $totalCabang = Pemain::distinct('cabang_olahraga')->count('cabang_olahraga');
         $totalKlub = Pemain::distinct('klub')->count('klub');
