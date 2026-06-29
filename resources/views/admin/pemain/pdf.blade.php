@@ -201,8 +201,14 @@
                         #{{ str_pad($pemain->id_pemain, 4, '0', STR_PAD_LEFT) }}
                     </td>
                     <td class="center">
-                        @if($pemain->gambar && file_exists(public_path('storage/' . $pemain->gambar)))
-                            <img src="{{ public_path('storage/' . $pemain->gambar) }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
+                        @if($pemain->gambar)
+                            @if(str_starts_with($pemain->gambar, 'data:'))
+                                <img src="{{ $pemain->gambar }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
+                            @elseif(file_exists(public_path('storage/' . $pemain->gambar)))
+                                <img src="{{ public_path('storage/' . $pemain->gambar) }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
+                            @else
+                                <span class="no-img">No Pic</span>
+                            @endif
                         @else
                             <span class="no-img">No Pic</span>
                         @endif

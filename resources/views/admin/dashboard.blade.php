@@ -210,7 +210,7 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             @if($pemain->gambar)
-                                                <img src="{{ asset('storage/' . $pemain->gambar) }}"
+                                                <img src="{{ str_starts_with($pemain->gambar, 'data:') ? $pemain->gambar : asset('storage/' . $pemain->gambar) }}"
                                                      alt="{{ $pemain->nama_pemain }}"
                                                      class="w-12 h-12 rounded-xl object-cover ring-2 ring-white/10">
                                             @else

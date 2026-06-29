@@ -74,7 +74,12 @@ class PemainController extends Controller
         $data = $request->except('gambar');
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('pemain', 'public');
+            $file = $request->file('gambar');
+            if (config('app.env') === 'production' || env('VERCEL')) {
+                $data['gambar'] = 'data:' . $file->getMimeType() . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+            } else {
+                $data['gambar'] = $file->store('pemain', 'public');
+            }
         }
 
         Pemain::create($data);
@@ -122,10 +127,16 @@ class PemainController extends Controller
 
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama jika ada
-            if ($pemain->gambar && Storage::disk('public')->exists($pemain->gambar)) {
+            if ($pemain->gambar && !str_starts_with($pemain->gambar, 'data:') && Storage::disk('public')->exists($pemain->gambar)) {
                 Storage::disk('public')->delete($pemain->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('pemain', 'public');
+            
+            $file = $request->file('gambar');
+            if (config('app.env') === 'production' || env('VERCEL')) {
+                $data['gambar'] = 'data:' . $file->getMimeType() . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
+            } else {
+                $data['gambar'] = $file->store('pemain', 'public');
+            }
         }
 
         $pemain->update($data);
@@ -140,7 +151,7 @@ class PemainController extends Controller
     public function destroy(Pemain $pemain)
     {
         // Hapus file gambar jika ada
-        if ($pemain->gambar && Storage::disk('public')->exists($pemain->gambar)) {
+        if ($pemain->gambar && !str_starts_with($pemain->gambar, 'data:') && Storage::disk('public')->exists($pemain->gambar)) {
             Storage::disk('public')->delete($pemain->gambar);
         }
 
@@ -163,7 +174,7 @@ class PemainController extends Controller
      */
     public function exportPdf()
     {
-        $pemains = Pemain::latest()->get();
+        $pemains = Pemain::orderBy('id_pemain', 'asc')->get();
 
         $pdf = Pdf::loadView('admin.pemain.pdf', compact('pemains'));
         $pdf->setPaper('A4', 'landscape');

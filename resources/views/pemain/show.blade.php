@@ -22,7 +22,7 @@
                     {{-- Player Image --}}
                     <div class="md:w-1/2 relative h-96 md:h-auto bg-slate-900 overflow-hidden">
                         @if($pemain->gambar)
-                            <img src="{{ asset('storage/' . $pemain->gambar) }}"
+                            <img src="{{ str_starts_with($pemain->gambar, 'data:') ? $pemain->gambar : asset('storage/' . $pemain->gambar) }}"
                                  alt="{{ $pemain->nama_pemain }}"
                                  class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
                         @else
