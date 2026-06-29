@@ -186,11 +186,10 @@
             <tr>
                 <th class="center" style="width: 25px;">No</th>
                 <th class="center" style="width: 60px;">ID Pemain</th>
-                <th class="center" style="width: 45px;">Gambar</th>
-                <th>Nama Pemain</th>
+                <th style="width: 250px;">Nama Pemain</th>
                 <th>Cabang Olahraga</th>
                 <th>Klub</th>
-                <th class="center" style="width: 40px;">Usia</th>
+                <th class="center" style="width: 60px;">Usia</th>
             </tr>
         </thead>
         <tbody>
@@ -199,19 +198,6 @@
                     <td class="center" style="color: #64748b; font-weight: bold;">{{ $index + 1 }}</td>
                     <td class="center" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #4f46e5;">
                         #{{ str_pad($pemain->id_pemain, 4, '0', STR_PAD_LEFT) }}
-                    </td>
-                    <td class="center">
-                        @if($pemain->gambar)
-                            @if(str_starts_with($pemain->gambar, 'data:'))
-                                <img src="{{ $pemain->gambar }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
-                            @elseif(file_exists(public_path('storage/' . $pemain->gambar)))
-                                <img src="{{ public_path('storage/' . $pemain->gambar) }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
-                            @else
-                                <span class="no-img">No Pic</span>
-                            @endif
-                        @else
-                            <span class="no-img">No Pic</span>
-                        @endif
                     </td>
                     <td style="font-weight: bold; color: #0f172a;">{{ $pemain->nama_pemain }}</td>
                     <td><span class="badge">{{ $pemain->cabang_olahraga }}</span></td>
