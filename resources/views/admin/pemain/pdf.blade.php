@@ -183,10 +183,13 @@
     {{-- Data Table --}}
     <table class="data-table">
         <thead>
-            <tr>
+             <tr>
                 <th class="center" style="width: 25px;">No</th>
                 <th class="center" style="width: 60px;">ID Pemain</th>
-                <th style="width: 250px;">Nama Pemain</th>
+                @if(!env('VERCEL'))
+                    <th class="center" style="width: 45px;">Gambar</th>
+                @endif
+                <th style="{{ env('VERCEL') ? 'width: 250px;' : '' }}">Nama Pemain</th>
                 <th>Cabang Olahraga</th>
                 <th>Klub</th>
                 <th class="center" style="width: 60px;">Usia</th>
@@ -199,6 +202,15 @@
                     <td class="center" style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #4f46e5;">
                         #{{ str_pad($pemain->id_pemain, 4, '0', STR_PAD_LEFT) }}
                     </td>
+                    @if(!env('VERCEL'))
+                        <td class="center">
+                            @if($pemain->gambar && file_exists(public_path('storage/' . $pemain->gambar)))
+                                <img src="{{ public_path('storage/' . $pemain->gambar) }}" class="player-img" alt="{{ $pemain->nama_pemain }}">
+                            @else
+                                <span class="no-img">No Pic</span>
+                            @endif
+                        </td>
+                    @endif
                     <td style="font-weight: bold; color: #0f172a;">{{ $pemain->nama_pemain }}</td>
                     <td><span class="badge">{{ $pemain->cabang_olahraga }}</span></td>
                     <td>{{ $pemain->klub }}</td>
@@ -206,7 +218,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="center" style="padding: 20px; color: #94a3b8;">
+                    <td colspan="{{ env('VERCEL') ? 6 : 7 }}" class="center" style="padding: 20px; color: #94a3b8;">
                         Tidak ada data pemain yang tersedia.
                     </td>
                 </tr>
