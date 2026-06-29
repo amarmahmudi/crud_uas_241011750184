@@ -206,7 +206,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="center" style="padding: 20px; color: #94a3b8;">
+                    <td colspan="6" class="center" style="padding: 20px; color: #94a3b8;">
                         Tidak ada data pemain yang tersedia.
                     </td>
                 </tr>
