@@ -36,11 +36,3 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/pemain/export-pdf', [PemainController::class, 'exportPdf'])->name('pemain.exportPdf');
 });
 
-Route::get('/run-db-upgrade', function () {
-    try {
-        \Illuminate\Support\Facades\DB::statement("ALTER TABLE pemain MODIFY gambar LONGTEXT");
-        return "Success upgrading table column 'gambar' to LONGTEXT!";
-    } catch (\Exception $e) {
-        return "Error: " . $e->getMessage();
-    }
-});
